@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KrakenApi", "KrakenApi\KrakenApi.csproj", "{F14FBC9A-BB60-4D11-B94D-9D36D621BAC3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{FD937A5C-A50A-4018-800D-FA68B2AA5B8A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F14FBC9A-BB60-4D11-B94D-9D36D621BAC3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F14FBC9A-BB60-4D11-B94D-9D36D621BAC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F14FBC9A-BB60-4D11-B94D-9D36D621BAC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F14FBC9A-BB60-4D11-B94D-9D36D621BAC3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD937A5C-A50A-4018-800D-FA68B2AA5B8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD937A5C-A50A-4018-800D-FA68B2AA5B8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD937A5C-A50A-4018-800D-FA68B2AA5B8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD937A5C-A50A-4018-800D-FA68B2AA5B8A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
