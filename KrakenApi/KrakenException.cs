@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 namespace KrakenApi
 {
     [Serializable]
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public class KrakenException : Exception
     {
         public ResponseBase Response { get; }

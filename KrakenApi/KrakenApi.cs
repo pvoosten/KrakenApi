@@ -35,6 +35,7 @@ using System.Threading;
 
 namespace KrakenApi
 {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public class ResponseBase
     {
         public List<string> Error;
@@ -182,49 +183,49 @@ namespace KrakenApi
     public class Ticker
     {
         /// <summary>
-        /// Ask array(<price>, <whole lot volume>, <lot volume>).
+        /// Ask array(&lt;price&gt;, &lt;whole lot volume&gt;, &lt;lot volume&gt;).
         /// </summary>
         [JsonProperty(PropertyName = "a")]
         public decimal[] Ask;
 
         /// <summary>
-        /// Bid array(<price>, <whole lot volume>, <lot volume>).
+        /// Bid array(&lt;price&gt;, &lt;whole lot volume&gt;, &lt;lot volume&gt;).
         /// </summary>
         [JsonProperty(PropertyName = "b")]
         public decimal[] Bid;
 
         /// <summary>
-        /// Last trade closed array(<price>, <lot volume>).
+        /// Last trade closed array(&lt;price&gt;, &lt;lot volume&gt;).
         /// </summary>
         [JsonProperty(PropertyName = "c")]
         public decimal[] Closed;
 
         /// <summary>
-        /// Volume array(<today>, <last 24 hours>).
+        /// Volume array(&lt;today&gt;, &lt;last 24 hours&gt;).
         /// </summary>
         [JsonProperty(PropertyName = "v")]
         public decimal[] Volume;
 
         /// <summary>
-        /// Volume weighted average price array(<today>, <last 24 hours>).
+        /// Volume weighted average price array(&lt;today&gt;, &lt;last 24 hours&gt;).
         /// </summary>
         [JsonProperty(PropertyName = "p")]
         public decimal[] VWAP;
 
         /// <summary>
-        /// Number of trades array(<today>, <last 24 hours>).
+        /// Number of trades array(&lt;today&gt;, &lt;last 24 hours&gt;).
         /// </summary>
         [JsonProperty(PropertyName = "t")]
         public int[] Trades;
 
         /// <summary>
-        /// Low array(<today>, <last 24 hours>).
+        /// Low array(&lt;today&gt;, &lt;last 24 hours&gt;).
         /// </summary>
         [JsonProperty(PropertyName = "l")]
         public decimal[] Low;
 
         /// <summary>
-        /// High array(<today>, <last 24 hours>).
+        /// High array(&lt;today&gt;, &lt;last 24 hours&gt;).
         /// </summary>
         [JsonProperty(PropertyName = "h")]
         public decimal[] High;
@@ -257,7 +258,7 @@ namespace KrakenApi
     {
         public Dictionary<string, List<OHLC>> Pairs;
 
-        // <summary>
+        /// <summary>
         /// Id to be used as since when polling for new, committed OHLC data.
         /// </summary>
         public long Last;
@@ -271,12 +272,12 @@ namespace KrakenApi
     public class OrderBook
     {
         /// <summary>
-        /// Ask side array of array entries(<price>, <volume>, <timestamp>)
+        /// Ask side array of array entries(&lt;price&gt;, &lt;volume&gt;, &lt;timestamp&gt;)
         /// </summary>
         public decimal[][] Asks;
 
         /// <summary>
-        /// Bid side array of array entries(<price>, <volume>, <timestamp>)
+        /// Bid side array of array entries(&lt;price&gt;, &lt;volume&gt;, &lt;timestamp&gt;)
         /// </summary>
         public decimal[][] Bids;
     }
@@ -937,16 +938,16 @@ namespace KrakenApi
         /// <summary>
         /// scheduled start time (optional):
         /// 0 = now(default)
-        /// +<n> = schedule start time<n> seconds from now
-        /// <n> = unix timestamp of start time
+        /// +&lt;n&gt; = schedule start time&lt;n&gt; seconds from now
+        /// &lt;n&gt; = unix timestamp of start time
         /// </summary>
         public int? StartTm;
 
         /// <summary>
         /// Expiration time (optional):
         /// 0 = no expiration(default)
-        /// +<n> = expire<n> seconds from now
-        /// <n> = unix timestamp of expiration time
+        /// +&lt;n&gt; = expire&lt;n&gt; seconds from now
+        /// &lt;n&gt; = unix timestamp of expiration time
         /// </summary>
         public int? ExpireTm;
 
