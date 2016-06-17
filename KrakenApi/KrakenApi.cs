@@ -47,14 +47,28 @@ namespace KrakenApi
     [ImplementPropertyChanged]
     public class GetServerTimeResult
     {
-        public int UnixTime{ get; set; }
-        public string Rfc1123{ get; set; }
+        private readonly static DateTime EPOCH = new DateTime(1970, 1, 1);
+        internal static DateTime UnixToDateTime(long unixTime)
+        {
+            return EPOCH + TimeSpan.FromSeconds(unixTime);
+        }
+
+        public int UnixTime { get; set; }
+        public string Rfc1123 { get; set; }
+        [JsonIgnore]
+        public DateTime Time
+        {
+            get
+            {
+                return UnixToDateTime(1466198619L);
+            }
+        }
     }
 
     [ImplementPropertyChanged]
     public class GetServerTimeResponse : ResponseBase
     {
-        public GetServerTimeResult Result{ get; set; }
+        public GetServerTimeResult Result { get; set; }
     }
 
     [ImplementPropertyChanged]
@@ -63,29 +77,29 @@ namespace KrakenApi
         /// <summary>
         /// Alternate name.
         /// </summary>
-        public string Altname{ get; set; }
+        public string Altname { get; set; }
 
         /// <summary>
         /// Asset class.
         /// </summary>
-        public string Aclass{ get; set; }
+        public string Aclass { get; set; }
 
         /// <summary>
         /// Scaling decimal places for record keeping.
         /// </summary>
-        public int Decimals{ get; set; }
+        public int Decimals { get; set; }
 
         /// <summary>
         /// Scaling decimal places for output display.
         /// </summary>
         [JsonProperty(PropertyName = "display_decimals ")]
-        public int DisplayDecimals{ get; set; }
+        public int DisplayDecimals { get; set; }
     }
 
     [ImplementPropertyChanged]
     public class GetAssetInfoResponse : ResponseBase
     {
-        public Dictionary<string, AssetInfo> Result{ get; set; }
+        public Dictionary<string, AssetInfo> Result { get; set; }
     }
 
     [ImplementPropertyChanged]
@@ -94,99 +108,99 @@ namespace KrakenApi
         /// <summary>
         /// Alternate pair name.
         /// </summary>
-        public string Altname{ get; set; }
+        public string Altname { get; set; }
 
         /// <summary>
         /// Asset private class of base component.
         /// </summary>
         [JsonProperty(PropertyName = "aclass_base")]
-        public string AclassBase{ get; set; }
+        public string AclassBase { get; set; }
 
         /// <summary>
         /// Asset id of base component
         /// </summary>
-        public string Base{ get; set; }
+        public string Base { get; set; }
 
         /// <summary>
         /// Asset class of quote component.
         /// </summary>
         [JsonProperty(PropertyName = "aclass_quote")]
-        public string AclassQuote{ get; set; }
+        public string AclassQuote { get; set; }
 
         /// <summary>
         /// Asset id of quote component.
         /// </summary>
-        public string Quote{ get; set; }
+        public string Quote { get; set; }
 
         /// <summary>
         /// Volume lot size.
         /// </summary>
-        public string Lot{ get; set; }
+        public string Lot { get; set; }
 
         /// <summary>
         /// Scaling decimal places for pair.
         /// </summary>
         [JsonProperty(PropertyName = "pair_decimals")]
-        public int PairDecimals{ get; set; }
+        public int PairDecimals { get; set; }
 
         /// <summary>
         /// Scaling decimal places for volume.
         /// </summary>
         [JsonProperty(PropertyName = "lot_decimals")]
-        public int LotDecimals{ get; set; }
+        public int LotDecimals { get; set; }
 
         /// <summary>
         /// Amount to multiply lot volume by to get currency volume.
         /// </summary>
         [JsonProperty(PropertyName = "lot_multiplier")]
-        public int LotMultiplier{ get; set; }
+        public int LotMultiplier { get; set; }
 
         /// <summary>
         /// Array of leverage amounts available when buying.
         /// </summary>
         [JsonProperty(PropertyName = "leverage_buy")]
-        public decimal[] LeverageBuy{ get; set; }
+        public decimal[] LeverageBuy { get; set; }
 
         /// <summary>
         /// Array of leverage amounts available when selling.
         /// </summary>
         [JsonProperty(PropertyName = "leverage_sell")]
-        public decimal[] LeverageSell{ get; set; }
+        public decimal[] LeverageSell { get; set; }
 
         /// <summary>
         /// Fee schedule array in [volume, percent fee].
         /// </summary>
-        public decimal[][] Fees{ get; set; }
+        public decimal[][] Fees { get; set; }
 
         /// <summary>
         /// Maker fee schedule array in [volume, percent fee] tuples(if on maker/taker).
         /// </summary>
         [JsonProperty(PropertyName = "fees_maker")]
-        public decimal[][] FeesMaker{ get; set; }
+        public decimal[][] FeesMaker { get; set; }
 
         /// <summary>
         /// Volume discount currency
         /// </summary>
         [JsonProperty(PropertyName = "fee_volume_currency")]
-        public string FeeVolumeCurrency{ get; set; }
+        public string FeeVolumeCurrency { get; set; }
 
         /// <summary>
         /// Margin call level.
         /// </summary>
         [JsonProperty(PropertyName = "margin_call")]
-        public decimal MarginCall{ get; set; }
+        public decimal MarginCall { get; set; }
 
         /// <summary>
         /// Stop-out/liquidation margin level.
         /// </summary>
         [JsonProperty(PropertyName = "margin_stop")]
-        public decimal MarginStop{ get; set; }
+        public decimal MarginStop { get; set; }
     }
 
     [ImplementPropertyChanged]
     public class GetAssetPairsResponse : ResponseBase
     {
-        public Dictionary<string, AssetPair> Result{ get; set; }
+        public Dictionary<string, AssetPair> Result { get; set; }
     }
 
     [ImplementPropertyChanged]
@@ -196,91 +210,101 @@ namespace KrakenApi
         /// Ask array(&lt;price&gt;, &lt;whole lot volume&gt;, &lt;lot volume&gt;).
         /// </summary>
         [JsonProperty(PropertyName = "a")]
-        public decimal[] Ask{ get; set; }
+        public decimal[] Ask { get; set; }
 
         /// <summary>
         /// Bid array(&lt;price&gt;, &lt;whole lot volume&gt;, &lt;lot volume&gt;).
         /// </summary>
         [JsonProperty(PropertyName = "b")]
-        public decimal[] Bid{ get; set; }
+        public decimal[] Bid { get; set; }
 
         /// <summary>
         /// Last trade closed array(&lt;price&gt;, &lt;lot volume&gt;).
         /// </summary>
         [JsonProperty(PropertyName = "c")]
-        public decimal[] Closed{ get; set; }
+        public decimal[] Closed { get; set; }
 
         /// <summary>
         /// Volume array(&lt;today&gt;, &lt;last 24 hours&gt;).
         /// </summary>
         [JsonProperty(PropertyName = "v")]
-        public decimal[] Volume{ get; set; }
+        public decimal[] Volume { get; set; }
 
         /// <summary>
         /// Volume weighted average price array(&lt;today&gt;, &lt;last 24 hours&gt;).
         /// </summary>
         [JsonProperty(PropertyName = "p")]
-        public decimal[] VWAP{ get; set; }
+        public decimal[] VWAP { get; set; }
 
         /// <summary>
         /// Number of trades array(&lt;today&gt;, &lt;last 24 hours&gt;).
         /// </summary>
         [JsonProperty(PropertyName = "t")]
-        public int[] Trades{ get; set; }
+        public int[] Trades { get; set; }
 
         /// <summary>
         /// Low array(&lt;today&gt;, &lt;last 24 hours&gt;).
         /// </summary>
         [JsonProperty(PropertyName = "l")]
-        public decimal[] Low{ get; set; }
+        public decimal[] Low { get; set; }
 
         /// <summary>
         /// High array(&lt;today&gt;, &lt;last 24 hours&gt;).
         /// </summary>
         [JsonProperty(PropertyName = "h")]
-        public decimal[] High{ get; set; }
+        public decimal[] High { get; set; }
 
         /// <summary>
         /// Today's opening price.
         /// </summary>
         [JsonProperty(PropertyName = "o")]
-        public decimal Open{ get; set; }
+        public decimal Open { get; set; }
     }
 
     [ImplementPropertyChanged]
     public class GetTickerResponse : ResponseBase
     {
-        public Dictionary<string, Ticker> Result{ get; set; }
+        public Dictionary<string, Ticker> Result { get; set; }
     }
 
     [ImplementPropertyChanged]
     public class OHLC
     {
-        public int Time{ get; set; }
-        public decimal Open{ get; set; }
-        public decimal High{ get; set; }
-        public decimal Low{ get; set; }
-        public decimal Close{ get; set; }
-        public decimal Vwap{ get; set; }
-        public decimal Volume{ get; set; }
-        public int Count{ get; set; }
+
+        [JsonProperty("Time")]
+        public int UnixTime { get; set; }
+        [JsonIgnore]
+        public DateTime Time
+        {
+            get
+            {
+                return GetServerTimeResult.UnixToDateTime(UnixTime);
+            }
+        }
+        public decimal Open { get; set; }
+        public decimal High { get; set; }
+        public decimal Low { get; set; }
+        public decimal Close { get; set; }
+        public decimal Vwap { get; set; }
+        public decimal Volume { get; set; }
+        public int Count { get; set; }
     }
 
     [ImplementPropertyChanged]
     public class GetOHLCResult
     {
-        public Dictionary<string, List<OHLC>> Pairs{ get; set; }
+        public Dictionary<string, List<OHLC>> Pairs { get; set; }
 
         /// <summary>
         /// Id to be used as since when polling for new, committed OHLC data.
         /// </summary>
-        public long Last{ get; set; }
+        public long Last { get; set; }
     }
 
     [ImplementPropertyChanged]
     public class GetOHLCResponse : ResponseBase
     {
-        public GetOHLCResult Result{ get; set; }
+        public GetOHLCResult Result { get; set; }
     }
 
     [ImplementPropertyChanged]
@@ -289,65 +313,83 @@ namespace KrakenApi
         /// <summary>
         /// Ask side array of array entries(&lt;price&gt;, &lt;volume&gt;, &lt;timestamp&gt;)
         /// </summary>
-        public decimal[][] Asks{ get; set; }
+        public decimal[][] Asks { get; set; }
 
         /// <summary>
         /// Bid side array of array entries(&lt;price&gt;, &lt;volume&gt;, &lt;timestamp&gt;)
         /// </summary>
-        public decimal[][] Bids{ get; set; }
+        public decimal[][] Bids { get; set; }
     }
 
     [ImplementPropertyChanged]
     public class GetOrderBookResponse : ResponseBase
     {
-        public Dictionary<string, OrderBook> Result{ get; set; }
+        public Dictionary<string, OrderBook> Result { get; set; }
     }
 
     [ImplementPropertyChanged]
     public class Trade
     {
-        public decimal Price{ get; set; }
-        public decimal Volume{ get; set; }
-        public int Time{ get; set; }
-        public string Side{ get; set; }
-        public string Type{ get; set; }
-        public string Misc{ get; set; }
+        public decimal Price { get; set; }
+        public decimal Volume { get; set; }
+        [JsonProperty("Time")]
+        public int UnixTime { get; set; }
+        [JsonIgnore]
+        public DateTime Time
+        {
+            get
+            {
+                return GetServerTimeResult.UnixToDateTime(1466198619L);
+            }
+        }
+        public string Side { get; set; }
+        public string Type { get; set; }
+        public string Misc { get; set; }
     }
 
     [ImplementPropertyChanged]
     public class GetRecentTradesResult
     {
-        public Dictionary<string, List<Trade>> Trades{ get; set; }
+        public Dictionary<string, List<Trade>> Trades { get; set; }
 
         /// <summary>
         /// Id to be used as since when polling for new trade data.
         /// </summary>
-        public long Last{ get; set; }
+        public long Last { get; set; }
     }
 
     [ImplementPropertyChanged]
     public class SpreadItem
     {
-        public int Time{ get; set; }
-        public decimal Bid{ get; set; }
-        public decimal Ask{ get; set; }
+        [JsonProperty("Time")]
+        public int UnixTime { get; set; }
+        [JsonIgnore]
+        public DateTime Time
+        {
+            get
+            {
+                return GetServerTimeResult.UnixToDateTime(UnixTime);
+            }
+        }
+        public decimal Bid { get; set; }
+        public decimal Ask { get; set; }
     }
 
     [ImplementPropertyChanged]
     public class GetRecentSpreadResult
     {
-        public Dictionary<string, List<SpreadItem>> Spread{ get; set; }
+        public Dictionary<string, List<SpreadItem>> Spread { get; set; }
 
         /// <summary>
         /// Id to be used as since when polling for new spread data
         /// </summary>
-        public long Last{ get; set; }
+        public long Last { get; set; }
     }
 
     [ImplementPropertyChanged]
     public class GetBalanceResponse : ResponseBase
     {
-        public Dictionary<string, decimal> Result{ get; set; }
+        public Dictionary<string, decimal> Result { get; set; }
     }
 
     [ImplementPropertyChanged]
@@ -357,61 +399,61 @@ namespace KrakenApi
         /// Equivalent balance(combined balance of all currencies).
         /// </summary>
         [JsonProperty(PropertyName = "eb")]
-        public decimal EquivalentBalance{ get; set; }
+        public decimal EquivalentBalance { get; set; }
 
         /// <summary>
         /// Trade balance(combined balance of all equity currencies).
         /// </summary>
         [JsonProperty(PropertyName = "tb")]
-        public decimal TradeBalance{ get; set; }
+        public decimal TradeBalance { get; set; }
 
         /// <summary>
         /// Margin amount of open positions.
         /// </summary>
         [JsonProperty(PropertyName = "m")]
-        public decimal MarginAmount{ get; set; }
+        public decimal MarginAmount { get; set; }
 
         /// <summary>
         /// Unrealized net profit/loss of open positions.
         /// </summary>
         [JsonProperty(PropertyName = "n")]
-        public decimal UnrealizedProfitAndLoss{ get; set; }
+        public decimal UnrealizedProfitAndLoss { get; set; }
 
         /// <summary>
         /// Cost basis of open positions.
         /// </summary>
         [JsonProperty(PropertyName = "c")]
-        public decimal CostBasis{ get; set; }
+        public decimal CostBasis { get; set; }
 
         /// <summary>
         /// Current floating valuation of open positions.
         /// </summary>
         [JsonProperty(PropertyName = "v")]
-        public decimal FloatingValutation{ get; set; }
+        public decimal FloatingValutation { get; set; }
 
         /// <summary>
         /// Equity = trade balance + unrealized net profit/loss.
         /// </summary>
         [JsonProperty(PropertyName = "e")]
-        public decimal Equity{ get; set; }
+        public decimal Equity { get; set; }
 
         /// <summary>
         /// Free margin = equity - initial margin(maximum margin available to open new positions).
         /// </summary>
         [JsonProperty(PropertyName = "mf")]
-        public decimal FreeMargin{ get; set; }
+        public decimal FreeMargin { get; set; }
 
         /// <summary>
         /// Margin level = (equity / initial margin) * 100
         /// </summary>
         [JsonProperty(PropertyName = "ml")]
-        public decimal MarginLevel{ get; set; }
+        public decimal MarginLevel { get; set; }
     }
 
     [ImplementPropertyChanged]
     public class GetTradeBalanceResponse : ResponseBase
     {
-        public TradeBalanceInfo Result{ get; set; }
+        public TradeBalanceInfo Result { get; set; }
     }
 
     [ImplementPropertyChanged]
@@ -420,42 +462,42 @@ namespace KrakenApi
         /// <summary>
         /// Asset pair.
         /// </summary>
-        public string Pair{ get; set; }
+        public string Pair { get; set; }
 
         /// <summary>
         /// Type of order (buy/sell).
         /// </summary>
-        public string Type{ get; set; }
+        public string Type { get; set; }
 
         /// <summary>
         /// Order type (See Add standard order).
         /// </summary>
-        public string OrderType{ get; set; }
+        public string OrderType { get; set; }
 
         /// <summary>
         /// Primary price.
         /// </summary>
-        public decimal Price{ get; set; }
+        public decimal Price { get; set; }
 
         /// <summary>
         /// Secondary price
         /// </summary>
-        public decimal Price2{ get; set; }
+        public decimal Price2 { get; set; }
 
         /// <summary>
         /// Amount of leverage
         /// </summary>
-        public string Leverage{ get; set; }
+        public string Leverage { get; set; }
 
         /// <summary>
         /// Order description.
         /// </summary>
-        public string Order{ get; set; }
+        public string Order { get; set; }
 
         /// <summary>
         /// Conditional close order description (if conditional close set).
         /// </summary>
-        public string Close{ get; set; }
+        public string Close { get; set; }
     }
 
     [ImplementPropertyChanged]
@@ -464,12 +506,12 @@ namespace KrakenApi
         /// <summary>
         /// Referral order transaction id that created this order
         /// </summary>
-        public string RefId{ get; set; }
+        public string RefId { get; set; }
 
         /// <summary>
         /// User reference id
         /// </summary>
-        public int? UserRef{ get; set; }
+        public int? UserRef { get; set; }
 
         /// <summary>
         /// Status of order
@@ -479,74 +521,74 @@ namespace KrakenApi
         /// canceled = order canceled
         /// expired = order expired
         /// </summary>
-        public string Status{ get; set; }
+        public string Status { get; set; }
 
         /// <summary>
         /// Unix timestamp of when order was placed
         /// </summary>
-        public double OpenTm{ get; set; }
+        public double OpenTm { get; set; }
 
         /// <summary>
         /// Unix timestamp of order start time (or 0 if not set)
         /// </summary>
-        public double StartTm{ get; set; }
+        public double StartTm { get; set; }
 
         /// <summary>
         /// Unix timestamp of order end time (or 0 if not set)
         /// </summary>
-        public double ExpireTm{ get; set; }
+        public double ExpireTm { get; set; }
 
         /// <summary>
         /// Unix timestamp of when order was closed
         /// </summary>
-        public double? CloseTm{ get; set; }
+        public double? CloseTm { get; set; }
 
         /// <summary>
         /// Additional info on status (if any)
         /// </summary>
-        public string Reason{ get; set; }
+        public string Reason { get; set; }
 
         /// <summary>
         /// Order description info
         /// </summary>
-        public OrderDescription Descr{ get; set; }
+        public OrderDescription Descr { get; set; }
 
         /// <summary>
         /// Volume of order (base currency unless viqc set in oflags)
         /// </summary>
         [JsonProperty(PropertyName = "vol ")]
-        public decimal Volume{ get; set; }
+        public decimal Volume { get; set; }
 
         /// <summary>
         /// Volume executed (base currency unless viqc set in oflags)
         /// </summary>
         [JsonProperty(PropertyName = "vol_exec ")]
-        public decimal VolumeExecuted{ get; set; }
+        public decimal VolumeExecuted { get; set; }
 
         /// <summary>
         /// Total cost (quote currency unless unless viqc set in oflags)
         /// </summary>
-        public decimal Cost{ get; set; }
+        public decimal Cost { get; set; }
 
         /// <summary>
         /// Total fee (quote currency)
         /// </summary>
-        public decimal Fee{ get; set; }
+        public decimal Fee { get; set; }
 
         /// <summary>
         /// Average price (quote currency unless viqc set in oflags)
         /// </summary>
-        public decimal Price{ get; set; }
+        public decimal Price { get; set; }
 
         /// <summary>
         /// Stop price (quote currency, for trailing stops)
         /// </summary>
-        public decimal? StopPrice{ get; set; }
+        public decimal? StopPrice { get; set; }
 
         /// <summary>
         /// Triggered limit price (quote currency, when limit based order type triggered)
         /// </summary>
-        public decimal? LimitPrice{ get; set; }
+        public decimal? LimitPrice { get; set; }
 
         /// <summary>
         /// Comma delimited list of miscellaneous info
@@ -555,7 +597,7 @@ namespace KrakenApi
         /// liquidated = liquidation
         /// partial = partial fill
         /// </summary>
-        public string Misc{ get; set; }
+        public string Misc { get; set; }
 
         /// <summary>
         /// Comma delimited list of order flags
@@ -564,7 +606,7 @@ namespace KrakenApi
         /// fciq = prefer fee in quote currency (default if buying)
         /// nompp = no market price protection
         /// </summary>
-        public string Oflags{ get; set; }
+        public string Oflags { get; set; }
 
         /// <summary>
         /// Array of trade ids related to order (if trades info requested and data available)
@@ -575,7 +617,7 @@ namespace KrakenApi
     [ImplementPropertyChanged]
     public class QueryOrdersResponse : ResponseBase
     {
-        public Dictionary<string, OrderInfo> Result{ get; set; }
+        public Dictionary<string, OrderInfo> Result { get; set; }
     }
 
     [ImplementPropertyChanged]
@@ -584,117 +626,117 @@ namespace KrakenApi
         /// <summary>
         /// Order responsible for execution of trade.
         /// </summary>
-        public string OrderTxid{ get; set; }
+        public string OrderTxid { get; set; }
 
         /// <summary>
         /// Asset pair.
         /// </summary>
-        public string Pair{ get; set; }
+        public string Pair { get; set; }
 
         /// <summary>
         /// Unix timestamp of trade.
         /// </summary>
-        public double Time{ get; set; }
+        public double Time { get; set; }
 
         /// <summary>
         /// Type of order (buy/sell).
         /// </summary>
-        public string Type{ get; set; }
+        public string Type { get; set; }
 
         /// <summary>
         /// Order type.
         /// </summary>
-        public string OrderType{ get; set; }
+        public string OrderType { get; set; }
 
         /// <summary>
         /// Average price order was executed at (quote currency).
         /// </summary>
-        public decimal Price{ get; set; }
+        public decimal Price { get; set; }
 
         /// <summary>
         /// Total cost of order (quote currency).
         /// </summary>
-        public decimal Cost{ get; set; }
+        public decimal Cost { get; set; }
 
         /// <summary>
         /// Total fee (quote currency).
         /// </summary>
-        public decimal Fee{ get; set; }
+        public decimal Fee { get; set; }
 
         /// <summary>
         /// Volume (base currency).
         /// </summary>
-        public decimal Vol{ get; set; }
+        public decimal Vol { get; set; }
 
         /// <summary>
         /// Initial margin (quote currency).
         /// </summary>
-        public decimal Margin{ get; set; }
+        public decimal Margin { get; set; }
 
         /// <summary>
         /// Comma delimited list of miscellaneous info.
         /// closing = trade closes all or part of a position.
         /// </summary>
-        public string Misc{ get; set; }
+        public string Misc { get; set; }
 
         /// <summary>
         /// Position status(open/closed).
         /// </summary>
-        public string PosStatus{ get; set; }
+        public string PosStatus { get; set; }
 
         /// <summary>
         /// Average price of closed portion of position(quote currency).
         /// </summary>
-        public decimal? CPrice{ get; set; }
+        public decimal? CPrice { get; set; }
 
         /// <summary>
         /// Total cost of closed portion of position(quote currency).
         /// </summary>
-        public decimal? CCost{ get; set; }
+        public decimal? CCost { get; set; }
 
         /// <summary>
         /// Total fee of closed portion of position(quote currency).
         /// </summary>
-        public decimal? CFee{ get; set; }
+        public decimal? CFee { get; set; }
 
         /// <summary>
         /// Total fee of closed portion of position(quote currency).
         /// </summary>
-        public decimal? CVol{ get; set; }
+        public decimal? CVol { get; set; }
 
         /// <summary>
         /// Total margin freed in closed portion of position(quote currency).
         /// </summary>
-        public decimal? CMargin{ get; set; }
+        public decimal? CMargin { get; set; }
 
         /// <summary>
         /// Net profit/loss of closed portion of position(quote currency, quote currency scale).
         /// </summary>
-        public decimal? Net{ get; set; }
+        public decimal? Net { get; set; }
 
         /// <summary>
         /// List of closing trades for position(if available).
         /// </summary>
-        public string[] Trades{ get; set; }
+        public string[] Trades { get; set; }
     }
 
     [ImplementPropertyChanged]
     public class GetTradesHistoryResult
     {
-        public Dictionary<string, TradeInfo> Trades{ get; set; }
-        public int Count{ get; set; }
+        public Dictionary<string, TradeInfo> Trades { get; set; }
+        public int Count { get; set; }
     }
 
     [ImplementPropertyChanged]
     public class GetTradesHistoryResponse : ResponseBase
     {
-        public GetTradesHistoryResult Result{ get; set; }
+        public GetTradesHistoryResult Result { get; set; }
     }
 
     [ImplementPropertyChanged]
     public class QueryTradesResponse : ResponseBase
     {
-        public Dictionary<string, TradeInfo> Result{ get; set; }
+        public Dictionary<string, TradeInfo> Result { get; set; }
     }
 
     [ImplementPropertyChanged]
@@ -703,84 +745,84 @@ namespace KrakenApi
         /// <summary>
         /// Order responsible for execution of trade.
         /// </summary>
-        public string OrderTxid{ get; set; }
+        public string OrderTxid { get; set; }
 
         /// <summary>
         /// Asset pair.
         /// </summary>
-        public string Pair{ get; set; }
+        public string Pair { get; set; }
 
         /// <summary>
         /// Unix timestamp of trade.
         /// </summary>
-        public double Time{ get; set; }
+        public double Time { get; set; }
 
         /// <summary>
         /// Type of order used to open position (buy/sell).
         /// </summary>
-        public string Type{ get; set; }
+        public string Type { get; set; }
 
         /// <summary>
         /// Order type used to open position.
         /// </summary>
-        public string OrderType{ get; set; }
+        public string OrderType { get; set; }
 
         /// <summary>
         /// Opening cost of position (quote currency unless viqc set in oflags).
         /// </summary>
-        public decimal Cost{ get; set; }
+        public decimal Cost { get; set; }
 
         /// <summary>
         /// opening fee of position (quote currency).
         /// </summary>
-        public decimal Fee{ get; set; }
+        public decimal Fee { get; set; }
 
         /// <summary>
         /// Position volume (base currency unless viqc set in oflags).
         /// </summary>
-        public decimal Vol{ get; set; }
+        public decimal Vol { get; set; }
 
         /// <summary>
         /// Position volume closed (base currency unless viqc set in oflags).
         /// </summary>
         [JsonProperty(PropertyName = "vol_closed")]
-        public decimal VolClosed{ get; set; }
+        public decimal VolClosed { get; set; }
 
         /// <summary>
         /// Initial margin (quote currency).
         /// </summary>
-        public decimal Margin{ get; set; }
+        public decimal Margin { get; set; }
 
         /// <summary>
         /// Current value of remaining position (if docalcs requested.  quote currency).
         /// </summary>
-        public decimal Value{ get; set; }
+        public decimal Value { get; set; }
 
         /// <summary>
         /// Unrealized profit/loss of remaining position (if docalcs requested.  quote currency, quote currency scale).
         /// </summary>
-        public decimal Net{ get; set; }
+        public decimal Net { get; set; }
 
         /// <summary>
         /// Comma delimited list of miscellaneous info.
         /// </summary>
-        public string Misc{ get; set; }
+        public string Misc { get; set; }
 
         /// <summary>
         /// Comma delimited list of order flags.
         /// </summary>
-        public string OFlags{ get; set; }
+        public string OFlags { get; set; }
 
         /// <summary>
         /// Volume in quote currency.
         /// </summary>
-        public decimal Viqc{ get; set; }
+        public decimal Viqc { get; set; }
     }
 
     [ImplementPropertyChanged]
     public class GetOpenPositionsResponse : ResponseBase
     {
-        public Dictionary<string, PositionInfo> Result{ get; set; }
+        public Dictionary<string, PositionInfo> Result { get; set; }
     }
 
     [ImplementPropertyChanged]
@@ -789,61 +831,61 @@ namespace KrakenApi
         /// <summary>
         /// Reference id.
         /// </summary>
-        public string Refid{ get; set; }
+        public string Refid { get; set; }
 
         /// <summary>
         /// Unix timestamp of ledger.
         /// </summary>
-        public double Time{ get; set; }
+        public double Time { get; set; }
 
         /// <summary>
         /// Type of ledger entry.
         /// </summary>
-        public string Type{ get; set; }
+        public string Type { get; set; }
 
         /// <summary>
         /// Asset class.
         /// </summary>
-        public string Aclass{ get; set; }
+        public string Aclass { get; set; }
 
         /// <summary>
         /// Asset.
         /// </summary>
-        public string Asset{ get; set; }
+        public string Asset { get; set; }
 
         /// <summary>
         /// Transaction amount.
         /// </summary>
-        public decimal Amount{ get; set; }
+        public decimal Amount { get; set; }
 
         /// <summary>
         /// Transaction fee.
         /// </summary>
-        public decimal Fee{ get; set; }
+        public decimal Fee { get; set; }
 
         /// <summary>
         /// Resulting balance.
         /// </summary>
-        public decimal Balance{ get; set; }
+        public decimal Balance { get; set; }
     }
 
     [ImplementPropertyChanged]
     public class GetLedgerResult
     {
-        public Dictionary<string, LedgerInfo> Ledger{ get; set; }
-        public int Count{ get; set; }
+        public Dictionary<string, LedgerInfo> Ledger { get; set; }
+        public int Count { get; set; }
     }
 
     [ImplementPropertyChanged]
     public class GetLedgerResponse : ResponseBase
     {
-        public GetLedgerResult Result{ get; set; }
+        public GetLedgerResult Result { get; set; }
     }
 
     [ImplementPropertyChanged]
     public class QueryLedgersResponse : ResponseBase
     {
-        public Dictionary<string, LedgerInfo> Result{ get; set; }
+        public Dictionary<string, LedgerInfo> Result { get; set; }
     }
 
     [ImplementPropertyChanged]
@@ -852,32 +894,32 @@ namespace KrakenApi
         /// <summary>
         /// Current fee in percent.
         /// </summary>
-        public decimal Fee{ get; set; }
+        public decimal Fee { get; set; }
 
         /// <summary>
         /// Minimum fee for pair (if not fixed fee).
         /// </summary>
-        public decimal MinFee{ get; set; }
+        public decimal MinFee { get; set; }
 
         /// <summary>
         /// Maximum fee for pair (if not fixed fee).
         /// </summary>
-        public decimal MaxFee{ get; set; }
+        public decimal MaxFee { get; set; }
 
         /// <summary>
         /// Next tier's fee for pair (if not fixed fee.  nil if at lowest fee tier).
         /// </summary>
-        public decimal NextFee{ get; set; }
+        public decimal NextFee { get; set; }
 
         /// <summary>
         /// Volume level of next tier (if not fixed fee.  nil if at lowest fee tier).
         /// </summary>
-        public decimal NextVolume{ get; set; }
+        public decimal NextVolume { get; set; }
 
         /// <summary>
         /// Volume level of current tier (if not fixed fee.  nil if at lowest fee tier).
         /// </summary>
-        public decimal TierVolume{ get; set; }
+        public decimal TierVolume { get; set; }
     }
 
     [ImplementPropertyChanged]
@@ -886,29 +928,29 @@ namespace KrakenApi
         /// <summary>
         /// Volume currency.
         /// </summary>
-        public string Currency{ get; set; }
+        public string Currency { get; set; }
 
         /// <summary>
         /// Current discount volume.
         /// </summary>
-        public decimal Volume{ get; set; }
+        public decimal Volume { get; set; }
 
         /// <summary>
         /// Fee tier info (if requested).
         /// </summary>
-        public Dictionary<string, FeeInfo> Fees{ get; set; }
+        public Dictionary<string, FeeInfo> Fees { get; set; }
 
         /// <summary>
         /// Maker fee tier info (if requested) for any pairs on maker/taker schedule.
         /// </summary>
         [JsonProperty(PropertyName = "fees_maker")]
-        public Dictionary<string, FeeInfo> FeesMaker{ get; set; }
+        public Dictionary<string, FeeInfo> FeesMaker { get; set; }
     }
 
     [ImplementPropertyChanged]
     public class GetTradeVolumeResponse : ResponseBase
     {
-        public GetTradeVolumeResult Result{ get; set; }
+        public GetTradeVolumeResult Result { get; set; }
     }
 
     [ImplementPropertyChanged]
@@ -919,12 +961,12 @@ namespace KrakenApi
         /// <summary>
         /// Asset pair.
         /// </summary>
-        public string Pair{ get; set; }
+        public string Pair { get; set; }
 
         /// <summary>
         /// Type of order (buy/sell).
         /// </summary>
-        public string Type{ get; set; }
+        public string Type { get; set; }
 
         /// <summary>
         /// Order type:
@@ -941,29 +983,29 @@ namespace KrakenApi
         /// stop-loss-and-limit(price = stop loss price, price2 = limit price)
         /// settle-position
         /// </summary>
-        public string OrderType{ get; set; }
+        public string OrderType { get; set; }
 
         /// <summary>
         /// Order volume in lots.
         /// </summary>
-        public decimal Volume{ get; set; }
+        public decimal Volume { get; set; }
 
         // Optional fields
 
         /// <summary>
         /// Price (optional.  dependent upon ordertype).
         /// </summary>
-        public decimal? Price{ get; set; }
+        public decimal? Price { get; set; }
 
         /// <summary>
         /// Secondary price (optional.  dependent upon ordertype).
         /// </summary>
-        public decimal? Price2{ get; set; }
+        public decimal? Price2 { get; set; }
 
         /// <summary>
         /// Amount of leverage desired (optional.  default = none).
         /// </summary>
-        public decimal? Leverage{ get; set; }
+        public decimal? Leverage { get; set; }
 
         /// <summary>
         /// Comma delimited list of order flags (optional):
@@ -973,7 +1015,7 @@ namespace KrakenApi
         /// nompp = no market price protection
         /// post = post only order(available when ordertype = limit)
         /// </summary>
-        public string OFlags{ get; set; }
+        public string OFlags { get; set; }
 
         /// <summary>
         /// scheduled start time (optional):
@@ -981,7 +1023,7 @@ namespace KrakenApi
         /// +&lt;n&gt; = schedule start time&lt;n&gt; seconds from now
         /// &lt;n&gt; = unix timestamp of start time
         /// </summary>
-        public int? StartTm{ get; set; }
+        public int? StartTm { get; set; }
 
         /// <summary>
         /// Expiration time (optional):
@@ -989,17 +1031,17 @@ namespace KrakenApi
         /// +&lt;n&gt; = expire&lt;n&gt; seconds from now
         /// &lt;n&gt; = unix timestamp of expiration time
         /// </summary>
-        public int? ExpireTm{ get; set; }
+        public int? ExpireTm { get; set; }
 
         /// <summary>
         /// User reference id.  32-bit signed number.  (optional).
         /// </summary>
-        public int? UserRef{ get; set; }
+        public int? UserRef { get; set; }
 
         /// <summary>
         /// Validate inputs only.  do not submit order (optional)
         /// </summary>
-        public bool? Validate{ get; set; }
+        public bool? Validate { get; set; }
 
         /// <summary>
         /// Optional closing order to add to system when order gets filled:
@@ -1007,19 +1049,19 @@ namespace KrakenApi
         /// close[price] = price
         /// close[price2] = secondary price
         /// </summary>
-        public Dictionary<string, string> Close{ get; set; }
+        public Dictionary<string, string> Close { get; set; }
 
         // The following fields are set in AddOrder when the order was added successfully
 
         /// <summary>
         /// Order description info.
         /// </summary>
-        public AddOrderDescr Descr{ get; set; }
+        public AddOrderDescr Descr { get; set; }
 
         /// <summary>
         /// Array of transaction ids for order (if order was added successfully).
         /// </summary>
-        public string[] Txid{ get; set; }
+        public string[] Txid { get; set; }
     }
 
     [ImplementPropertyChanged]
@@ -1028,12 +1070,12 @@ namespace KrakenApi
         /// <summary>
         /// Order description.
         /// </summary>
-        public string Order{ get; set; }
+        public string Order { get; set; }
 
         /// <summary>
         /// Conditional close order description (if conditional close set).
         /// </summary>
-        public string Close{ get; set; }
+        public string Close { get; set; }
     }
 
     [ImplementPropertyChanged]
@@ -1042,18 +1084,18 @@ namespace KrakenApi
         /// <summary>
         /// Order description info.
         /// </summary>
-        public AddOrderDescr Descr{ get; set; }
+        public AddOrderDescr Descr { get; set; }
 
         /// <summary>
         /// Array of transaction ids for order (if order was added successfully).
         /// </summary>
-        public string[] Txid{ get; set; }
+        public string[] Txid { get; set; }
     }
 
     [ImplementPropertyChanged]
     public class AddOrderResponse : ResponseBase
     {
-        public AddOrderResult Result{ get; set; }
+        public AddOrderResult Result { get; set; }
     }
 
     [ImplementPropertyChanged]
@@ -1062,18 +1104,18 @@ namespace KrakenApi
         /// <summary>
         /// Number of orders canceled.
         /// </summary>
-        public int Count{ get; set; }
+        public int Count { get; set; }
 
         /// <summary>
         /// If set, order(s) is/are pending cancellation.
         /// </summary>
-        public bool? Pending{ get; set; }
+        public bool? Pending { get; set; }
     }
 
     [ImplementPropertyChanged]
     public class CancelOrderResponse : ResponseBase
     {
-        public CancelOrderResult Result{ get; set; }
+        public CancelOrderResult Result { get; set; }
     }
 
     [ImplementPropertyChanged]
@@ -1082,29 +1124,29 @@ namespace KrakenApi
         /// <summary>
         /// Name of deposit method.
         /// </summary>
-        public string Method{ get; set; }
+        public string Method { get; set; }
 
         /// <summary>
         /// Maximum net amount that can be deposited right now, or false if no limit
         /// </summary>
-        public string Limit{ get; set; }
+        public string Limit { get; set; }
 
         /// <summary>
         /// Amount of fees that will be paid.
         /// </summary>
-        public string Fee{ get; set; }
+        public string Fee { get; set; }
 
         /// <summary>
         /// Whether or not method has an address setup fee (optional).
         /// </summary>
         [JsonProperty(PropertyName = "address-setup-fee")]
-        public bool? AddressSetupFee{ get; set; }
+        public bool? AddressSetupFee { get; set; }
     }
 
     [ImplementPropertyChanged]
     public class GetDepositMethodsResponse : ResponseBase
     {
-        public GetDepositMethodsResult[] Result{ get; set; }
+        public GetDepositMethodsResult[] Result { get; set; }
     }
 
     public class GetDepositAddressesResult
@@ -1114,7 +1156,7 @@ namespace KrakenApi
     [ImplementPropertyChanged]
     public class GetDepositAddressesResponse : ResponseBase
     {
-        public GetDepositAddressesResult Result{ get; set; }
+        public GetDepositAddressesResult Result { get; set; }
     }
 
     [ImplementPropertyChanged]
@@ -1123,52 +1165,62 @@ namespace KrakenApi
         /// <summary>
         /// Name of the deposit method used.
         /// </summary>
-        public string Method{ get; set; }
+        public string Method { get; set; }
 
         /// <summary>
         /// Asset class.
         /// </summary>
-        public string Aclass{ get; set; }
+        public string Aclass { get; set; }
 
         /// <summary>
         /// Asset X-ISO4217-A3 code.
         /// </summary>
-        public string Asset{ get; set; }
+        public string Asset { get; set; }
 
         /// <summary>
         /// Reference id.
         /// </summary>
-        public string RefId{ get; set; }
+        public string RefId { get; set; }
 
         /// <summary>
         /// Method transaction id.
         /// </summary>
-        public string Txid{ get; set; }
+        public string Txid { get; set; }
 
         /// <summary>
         /// Method transaction information.
         /// </summary>
-        public string Info{ get; set; }
+        public string Info { get; set; }
 
         /// <summary>
         /// Amount deposited.
         /// </summary>
-        public decimal Amount{ get; set; }
+        public decimal Amount { get; set; }
 
         /// <summary>
         /// Fees paid.
         /// </summary>
-        public decimal Fee{ get; set; }
+        public decimal Fee { get; set; }
 
         /// <summary>
         /// Unix timestamp when request was made.
         /// </summary>
-        public int Time{ get; set; }
+        [JsonProperty("Time")]
+        public int UnixTime { get; set; }
+
+        [JsonIgnore]
+        public DateTime Time
+        {
+            get
+            {
+                return GetServerTimeResult.UnixToDateTime(1466198619L);
+            }
+        }
 
         /// <summary>
         /// status of deposit
         /// </summary>
-        public string Status{ get; set; }
+        public string Status { get; set; }
 
         // status-prop = additional status properties(if available)
         //    return = a return transaction initiated by Kraken
@@ -1178,7 +1230,7 @@ namespace KrakenApi
     [ImplementPropertyChanged]
     public class GetDepositStatusResponse : ResponseBase
     {
-        public GetDepositStatusResult[] Result{ get; set; }
+        public GetDepositStatusResult[] Result { get; set; }
     }
 
     [ImplementPropertyChanged]
@@ -1187,35 +1239,35 @@ namespace KrakenApi
         /// <summary>
         /// Name of the withdrawal method that will be used
         /// </summary>
-        public string Method{ get; set; }
+        public string Method { get; set; }
 
         /// <summary>
         /// Maximum net amount that can be withdrawn right now.
         /// </summary>
-        public decimal Limit{ get; set; }
+        public decimal Limit { get; set; }
 
         /// <summary>
         /// Amount of fees that will be paid.
         /// </summary>
-        public decimal Fee{ get; set; }
+        public decimal Fee { get; set; }
     }
 
     [ImplementPropertyChanged]
     public class GetWithdrawInfoResponse : ResponseBase
     {
-        public GetWithdrawInfoResult Result{ get; set; }
+        public GetWithdrawInfoResult Result { get; set; }
     }
 
     [ImplementPropertyChanged]
     public class WithdrawResult
     {
-        public string RefId{ get; set; }
+        public string RefId { get; set; }
     }
 
     [ImplementPropertyChanged]
     public class WithdrawResponse : ResponseBase
     {
-        public WithdrawResult Result{ get; set; }
+        public WithdrawResult Result { get; set; }
     }
 
     [ImplementPropertyChanged]
@@ -1224,52 +1276,62 @@ namespace KrakenApi
         /// <summary>
         /// Name of the withdrawal method used.
         /// </summary>
-        public string Method{ get; set; }
+        public string Method { get; set; }
 
         /// <summary>
         /// Asset class.
         /// </summary>
-        public string Aclass{ get; set; }
+        public string Aclass { get; set; }
 
         /// <summary>
         /// Asset X-ISO4217-A3 code.
         /// </summary>
-        public string Asset{ get; set; }
+        public string Asset { get; set; }
 
         /// <summary>
         /// Reference id.
         /// </summary>
-        public string RefId{ get; set; }
+        public string RefId { get; set; }
 
         /// <summary>
         /// Method transaction id.
         /// </summary>
-        public string Txid{ get; set; }
+        public string Txid { get; set; }
 
         /// <summary>
         /// Method transaction information.
         /// </summary>
-        public string Info{ get; set; }
+        public string Info { get; set; }
 
         /// <summary>
         /// Amount withdrawn.
         /// </summary>
-        public decimal Amount{ get; set; }
+        public decimal Amount { get; set; }
 
         /// <summary>
         /// Fees paid.
         /// </summary>
-        public decimal Fee{ get; set; }
+        public decimal Fee { get; set; }
 
         /// <summary>
         /// Unix timestamp when request was made.
         /// </summary>
-        public int Time{ get; set; }
+        [JsonProperty("Time")]
+        public int UnixTime { get; set; }
+
+        [JsonIgnore]
+        public DateTime Time
+        {
+            get
+            {
+                return GetServerTimeResult.UnixToDateTime(1466198619L);
+            }
+        }
 
         /// <summary>
         /// Status of withdrawal.
         /// </summary>
-        public string Status{ get; set; }
+        public string Status { get; set; }
 
         //status-prop = additional status properties(if available).
         //cancel-pending = cancelation requested.
@@ -1282,13 +1344,13 @@ namespace KrakenApi
     [ImplementPropertyChanged]
     public class GetWithdrawStatusResponse : ResponseBase
     {
-        public GetWithdrawStatusResult Result{ get; set; }
+        public GetWithdrawStatusResult Result { get; set; }
     }
 
     [ImplementPropertyChanged]
     public class WithdrawCancelResponse : ResponseBase
     {
-        public bool Result{ get; set; }
+        public bool Result { get; set; }
     }
 
     public class Kraken
@@ -1567,7 +1629,7 @@ namespace KrakenApi
                 {
                     var ohlc = new List<OHLC>();
                     foreach (var v in o.Value.ToObject<decimal[][]>())
-                        ohlc.Add(new OHLC() { Time = (int)v[0], Open = v[1], High = v[2], Low = v[3], Close = v[4], Vwap = v[5], Volume = v[6], Count = (int)v[7] });
+                        ohlc.Add(new OHLC() { UnixTime = (int)v[0], Open = v[1], High = v[2], Low = v[3], Close = v[4], Vwap = v[5], Volume = v[6], Count = (int)v[7] });
                     ret.Pairs.Add(o.Key, ohlc);
                 }
             }
@@ -1636,7 +1698,7 @@ namespace KrakenApi
                         {
                             Price = a[0].Value<decimal>(),
                             Volume = a[1].Value<decimal>(),
-                            Time = a[2].Value<int>(),
+                            UnixTime = a[2].Value<int>(),
                             Side = a[3].Value<string>(),
                             Type = a[4].Value<string>(),
                             Misc = a[5].Value<string>()
@@ -1693,7 +1755,7 @@ namespace KrakenApi
 
                         trade.Add(new SpreadItem()
                         {
-                            Time = a[0].Value<int>(),
+                            UnixTime = a[0].Value<int>(),
                             Bid = a[1].Value<decimal>(),
                             Ask = a[2].Value<decimal>()
                         });

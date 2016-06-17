@@ -34,33 +34,34 @@ namespace Test
         {
             Kraken kraken = new Kraken(krakenKey, krakenSecret, 2500);
             var time = kraken.GetServerTime();
-            //var assets = kraken.GetAssetInfo();
-            //var assets = kraken.GetAssetPairs();
-            //var ticker = kraken.GetTicker("XXBTZEUR");
-            //var ohlc = kraken.GetOHLC("XXBTZEUR", 1440);
-            //var orderbook = kraken.GetOrderBook("XXBTZEUR");
-            //var trades = kraken.GetRecentTrades("XXBTZEUR");
-            //var spread = kraken.GetRecentSpread("XXBTZEUR");
-            //var accountBalance = kraken.GetAccountBalance();
-            //var tradeBalance = kraken.GetTradeBalance();
-            //var openOrders = kraken.GetOpenOrders();
-            //var closedOrders = kraken.GetClosedOrders();
-            //var orders = kraken.QueryOrders(new string[] { "x" });
-            //var trades = kraken.GetTradesHistory();
-            //var openPositions = kraken.GetOpenPositions(new string[] { "x" });
-            //var ledgers = kraken.GetLedgers();
-            //var volume = kraken.GetTradeVolume(new string[] { "XXBTZEUR", "XXBTZUSD" }, true);
+            var assets = kraken.GetAssetInfo();
+            var assetPairs = kraken.GetAssetPairs();
+            var ticker = kraken.GetTicker("XXBTZEUR");
+            var ohlc = kraken.GetOHLC("XXBTZEUR", 1440);
+            var orderbook = kraken.GetOrderBook("XXBTZEUR");
+//#error objectify orderbook data and also use DateTime along with unix time there.
+            var trades = kraken.GetRecentTrades("XXBTZEUR");
+            var spread = kraken.GetRecentSpread("XXBTZEUR");
+            // var accountBalance = kraken.GetAccountBalance();
+            // var tradeBalance = kraken.GetTradeBalance();
+            // var openOrders = kraken.GetOpenOrders();
+            // var closedOrders = kraken.GetClosedOrders();
+            // var orders = kraken.QueryOrders(new string[] { "x" });
+            // var tradesHistory = kraken.GetTradesHistory();
+            // var openPositions = kraken.GetOpenPositions(new string[] { "x" });
+            // var ledgers = kraken.GetLedgers();
+            // var volume = kraken.GetTradeVolume(new string[] { "XXBTZEUR", "XXBTZUSD" }, true);
 
-            //var order = new KrakenOrder();
-            //order.Pair = "XXBTZEUR";
-            //order.Type = "buy";
-            //order.OrderType = "market";
-            //order.Volume = 0.01m;
-            //order.Validate = true;
-            //var result = kraken.AddOrder(order);
+            // var order = new KrakenOrder();
+            // order.Pair = "XXBTZEUR";
+            // order.Type = "buy";
+            // order.OrderType = "market";
+            // order.Volume = 0.01m;
+            // order.Validate = true;
+            // var result = kraken.AddOrder(order);
 
-            //var depositMethods = kraken.GetDepositMethods(asset: "ZEUR");
-            //var depositStatus = kraken.GetDepositStatus("ZEUR", "Fidor Bank AG (SEPA)");
+            // var depositMethods = kraken.GetDepositMethods(asset: "ZEUR");
+            // var depositStatus = kraken.GetDepositStatus("ZEUR", "Fidor Bank AG (SEPA)");
         }
     }
 }
