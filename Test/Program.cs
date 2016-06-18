@@ -39,7 +39,6 @@ namespace Test
             var ticker = kraken.GetTicker("XXBTZEUR");
             var ohlc = kraken.GetOHLC("XXBTZEUR", 1440);
             var orderbook = kraken.GetOrderBook("XXBTZEUR");
-//#error objectify orderbook data and also use DateTime along with unix time there.
             var trades = kraken.GetRecentTrades("XXBTZEUR");
             var spread = kraken.GetRecentSpread("XXBTZEUR");
             // var accountBalance = kraken.GetAccountBalance();

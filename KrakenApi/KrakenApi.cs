@@ -310,18 +310,93 @@ namespace KrakenApi
     [ImplementPropertyChanged]
     public class OrderBook
     {
+        private AskOrBid[] _askObjects;
+        private AskOrBid[] _bidObjects;
+
         /// <summary>
         /// Ask side array of array entries(&lt;price&gt;, &lt;volume&gt;, &lt;timestamp&gt;)
         /// </summary>
         public decimal[][] Asks { get; set; }
 
+        [JsonIgnore]
+        public AskOrBid[] AskObjects
+        {
+            get
+            {
+                if (_askObjects == null)
+                {
+                    _askObjects = new AskOrBid[Asks.Length];
+                    for (int i = 0; i < Asks.Length; i++)
+                    {
+                        _askObjects[i] = new AskOrBid(Asks[i]);
+                    }
+                }
+                return _askObjects;
+            }
+        }
+
         /// <summary>
         /// Bid side array of array entries(&lt;price&gt;, &lt;volume&gt;, &lt;timestamp&gt;)
         /// </summary>
         public decimal[][] Bids { get; set; }
+
+        [JsonIgnore]
+        public AskOrBid[] BidObjects
+        {
+            get
+            {
+                if (_bidObjects == null)
+                {
+                    _bidObjects = new AskOrBid[Bids.Length];
+                    for (int i = 0; i < Bids.Length; i++)
+                    {
+                        _bidObjects[i] = new AskOrBid(Bids[i]);
+                    }
+                }
+                return _bidObjects;
+            }
+        }
     }
 
-    [ImplementPropertyChanged]
+    public class AskOrBid
+    {
+        private decimal[] _value;
+
+        public AskOrBid(decimal[] value)
+        {
+            _value = value;
+        }
+
+        public decimal Price
+        {
+            get
+            {
+                return _value[0];
+            }
+        }
+        public decimal Volume
+        {
+            get
+            {
+                return _value[1];
+            }
+        }
+        public int UnixTime
+        {
+            get
+            {
+                return (int)_value[2];
+            }
+        }
+        public DateTime Time
+        {
+            get
+            {
+                return GetServerTimeResult.UnixToDateTime(UnixTime);
+            }
+        }
+    }
+
     public class GetOrderBookResponse : ResponseBase
     {
         public Dictionary<string, OrderBook> Result { get; set; }
